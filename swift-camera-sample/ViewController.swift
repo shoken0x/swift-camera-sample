@@ -34,18 +34,18 @@ class ViewController: UIViewController {
         
         // find back camera
         for device : AnyObject in devices {
-            if(device.position == AVCaptureDevicePosition.Back) {
+            if device.position == AVCaptureDevicePosition.Back {
                 captureDevice = device as? AVCaptureDevice;
             }
         }
 
-        if(captureDevice == nil) {
-            println("Missing Camera")
-            return false;
-        } else {
+        if captureDevice {
             // Debug
             println(captureDevice!.localizedName)
             println(captureDevice!.modelID)
+        } else {
+            println("Missing Camera")
+            return false;
         }
         
         // init device input
