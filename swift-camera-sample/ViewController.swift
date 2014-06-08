@@ -33,9 +33,9 @@ class ViewController: UIViewController {
         var devices: NSArray = AVCaptureDevice.devices()
         
         // find back camera
-        for device : AnyObject in devices {
+        for device: AnyObject in devices {
             if device.position == AVCaptureDevicePosition.Back {
-                captureDevice = device as? AVCaptureDevice;
+                captureDevice = device as? AVCaptureDevice
             }
         }
 
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             println(captureDevice!.modelID)
         } else {
             println("Missing Camera")
-            return false;
+            return false
         }
         
         // init device input
@@ -56,18 +56,18 @@ class ViewController: UIViewController {
         
         // init session
         self.session = AVCaptureSession()
-        self.session.sessionPreset = AVCaptureSessionPresetPhoto;
+        self.session.sessionPreset = AVCaptureSessionPresetPhoto
         self.session.addInput(deviceInput as AVCaptureInput)
-        self.session.addOutput(self.stillImageOutput);
+        self.session.addOutput(self.stillImageOutput)
         
         // layer for preview
         var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer.layerWithSession(self.session) as AVCaptureVideoPreviewLayer
-        previewLayer.frame = self.view.bounds;
+        previewLayer.frame = self.view.bounds
         self.view.layer.addSublayer(previewLayer)
         
         self.session.startRunning()
         
-        return true;
+        return true
     }
 
 }
