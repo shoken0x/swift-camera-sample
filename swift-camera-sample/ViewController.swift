@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             }
         }
 
-        if captureDevice {
+        if captureDevice != nil {
             // Debug
             println(captureDevice!.localizedName)
             println(captureDevice!.modelID)
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         }
         
         // init device input
-        var error: NSErrorPointer!
+        var error: NSErrorPointer = nil
         var deviceInput: AVCaptureInput = AVCaptureDeviceInput.deviceInputWithDevice(captureDevice, error: error) as AVCaptureInput
         
         self.stillImageOutput = AVCaptureStillImageOutput()
