@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     func configureCamera() -> Bool {
         // init camera device
         var captureDevice: AVCaptureDevice?
-        var devices: NSArray = AVCaptureDevice.devices()
+        let devices: NSArray = AVCaptureDevice.devices()
         
         // find back camera
         for device: AnyObject in devices {
@@ -41,32 +41,35 @@ class ViewController: UIViewController {
 
         if captureDevice != nil {
             // Debug
-            println(captureDevice!.localizedName)
-            println(captureDevice!.modelID)
+            print(captureDevice!.localizedName)
+            print(captureDevice!.modelID)
         } else {
-            println("Missing Camera")
+            print("Missing Camera")
             return false
         }
         
         // init device input
-        var error: NSErrorPointer = nil
-        var deviceInput: AVCaptureInput = AVCaptureDeviceInput.deviceInputWithDevice(captureDevice, error: error) as AVCaptureInput
-        
-        self.stillImageOutput = AVCaptureStillImageOutput()
-        
-        // init session
-        self.session = AVCaptureSession()
-        self.session.sessionPreset = AVCaptureSessionPresetPhoto
-        self.session.addInput(deviceInput as AVCaptureInput)
-        self.session.addOutput(self.stillImageOutput)
-        
-        // layer for preview
-        var previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer.layerWithSession(self.session) as AVCaptureVideoPreviewLayer
-        previewLayer.frame = self.view.bounds
-        self.view.layer.addSublayer(previewLayer)
-        
-        self.session.startRunning()
-        
+        do {
+            let deviceInput: AVCaptureInput = try AVCaptureDeviceInput(device: captureDevice) as AVCaptureInput
+            
+            self.stillImageOutput = AVCaptureStillImageOutput()
+            
+            // init session
+            self.session = AVCaptureSession()
+            self.session.sessionPreset = AVCaptureSessionPresetPhoto
+            self.session.addInput(deviceInput as AVCaptureInput)
+            self.session.addOutput(self.stillImageOutput)
+            
+            // layer for preview
+            let previewLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.session) as AVCaptureVideoPreviewLayer
+            previewLayer.frame = self.view.bounds
+            self.view.layer.addSublayer(previewLayer)
+            
+            self.session.startRunning()
+        }
+        catch {
+            // handle error here
+        }
         return true
     }
 
